@@ -1,6 +1,6 @@
 Installation instructions
 
-- Install Python 3.7.3 (lower versions high likely works as well)
+- Install Python 3.7.3 (lower versions high likely work as well)
 - Clone the repository
 - Install the requirements with `pip install -r requirements.txt`
 - Migrate a database using `python manage.py migrate`
