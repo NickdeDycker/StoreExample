@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}Cart{% endblock title %}
+
+{% block content %}
+    <div class="col-12">
+        <h1>Cart</h1>
+    </div>
+    <div class="col-12">
+        <a href="{% url 'empty-cart' %}">empty</a>
+    </div>
+    {% for product in products %}
+        <div class="row col-12">
+            <div class="col-4">
+                {{ product }}
+            </div>
+            <div class="col-4 row">
+                <div class="col-2">
+                    <a href="{% url 'remove-cart' product.id %}">-1</a>
+                </div>
+                <div class="col-1">
+                    {{ product.in_cart }}
+                </div>
+                <div class="col-1">
+                    <a href="{% url 'add-cart' product.id %}">+1</a>
+                </div>
+            </div>
+            <div class="col-4">€{{ product.total_price }}</div>
+        </div>
+    {% endfor %}
+    <hr style="width: 100%;" />
+    <div class="col-12 row">
+        <div class="col-4">
+            Total price:
+        </div>
+        <div class="col-4 row"></div>
+        <div class="col-4">
+            €{{ request.session.total_price }}
+        </div>
+    </div>
+    <hr style="width: 100%;" />
+    {% if request.session.discount_code %}
+        <div class="col-12 row">
+            <div class="col-4">
+                New price:
+            </div>
+            <div class="col-4 row">Code: {{ request.session.discount_code }}</div>
+            <div class="col-4">
+                €{{ request.session.discount_price }}
+            </div>
+        </div>
+        <hr style="width: 100%;" />
+    {% endif %}
+    <div class="col-12 row">
+        <div class="col-12">
+            <form method="post">{% csrf_token %}
+                Discount code: <input type="text" name="discount_code"><button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+{% endblock content %}

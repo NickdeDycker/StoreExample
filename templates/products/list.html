@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Store products{% endblock title %}
+
+{% block content %}
+    <div class="col-12">
+        <h1>Store products</h1>
+    </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Price</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for product in products %}
+            <tr>
+                <td><a href="{% url 'product_detail' product.id %}">{{ product.name }}</a></td>
+                <td><a href="{% url 'product_detail' product.id %}">€{{ product.price }}</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock content %}
+
+{% block extra_js %}
+    <script type="application/javascript">
+        (function () {
+            // On document ready find all buttons.
+            document.querySelectorAll('.add-product').forEach(function(product) {
+
+                // Event listener to add product to cart on click.
+                product.addEventListener('click', function () {
+                    let productid = product.getAttribute('data-product-id')
+
+                    // TODO: Polyfill this for browsers like IE
+                    fetch('/ajax/product_in_cart/', {
+                        method: 'POST',
+                        body: JSON.stringify({'product-id': productid}),
+                        headers: {
+                            'X-CSRFToken': '{{csrf_token}}',
+                            'Content-Type': 'application/json',
+                        }
+                    })
+
+                })
+            });
+        })()
+    </script>
+{% endblock extra_js %}

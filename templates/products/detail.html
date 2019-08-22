@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}{{ product }}{% endblock title %}
+
+{% block content %}
+    <div class="col-12">
+        <h1>{{ product }} - €{{ product.price }}</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button class="button" type="submit">Add</button>
+        </form>
+    </div>
+{% endblock content %}
